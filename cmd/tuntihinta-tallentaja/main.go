@@ -14,32 +14,14 @@ import (
 	"github.com/timotm/tuntihinta-tallentaja/pkg/s3"
 )
 
-type entsoeTime time.Time
-
-var startTime entsoeTime
-var endTime entsoeTime
-
-func (t *entsoeTime) String() string {
-	return time.Time(*t).Format("2006-01-02T00:00Z")
-}
-
-func (t *entsoeTime) Set(value string) error {
-	tmp, err := time.Parse("2006-01-02", value)
-	if err != nil {
-		return err
-	}
-	*t = entsoeTime(tmp)
-	return nil
-}
-
-func (t *entsoeTime) isSet() bool {
-	return !time.Time(*t).IsZero()
-}
+var startTime fetcher.EntsoeTime
+var endTime fetcher.EntsoeTime
 
 func init() {
 	flag.Var(&startTime, "start-date", "First date to fetch data for, e.g. 2021-01-01. Default tomorrow.")
 	flag.Var(&endTime, "end-date", "Last date to fetch data for, default tomorrow.")
 }
+
 func main() {
 	flag.Parse()
 
@@ -54,14 +36,14 @@ func main() {
 		log.Fatalf("Missing environment variables: %s", strings.Join(unset, ", "))
 	}
 
-	if !startTime.isSet() {
+	if !startTime.IsSet() {
 		t := time.Now().AddDate(0, 0, 1)
-		startTime = entsoeTime(t)
+		startTime = fetcher.EntsoeTime(t)
 	}
 
-	if !endTime.isSet() {
+	if !endTime.IsSet() {
 		t := time.Now().AddDate(0, 0, 2)
-		endTime = entsoeTime(t)
+		endTime = fetcher.EntsoeTime(t)
 	}
 
 	fmt.Printf("Fetching data for %+v to %+v\n", startTime.String(), endTime.String())

@@ -5,7 +5,27 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"time"
 )
+
+type EntsoeTime time.Time
+
+func (t *EntsoeTime) String() string {
+	return time.Time(*t).Format("2006-01-02T00:00Z")
+}
+
+func (t *EntsoeTime) Set(value string) error {
+	tmp, err := time.Parse("2006-01-02", value)
+	if err != nil {
+		return err
+	}
+	*t = EntsoeTime(tmp)
+	return nil
+}
+
+func (t *EntsoeTime) IsSet() bool {
+	return !time.Time(*t).IsZero()
+}
 
 func GetXmlPriceDataForDateRange(start string, end string, securityToken string) []byte {
 	client := &http.Client{}
