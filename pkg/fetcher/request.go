@@ -1,4 +1,4 @@
-package main
+package fetcher
 
 import (
 	"fmt"
@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-func getXmlPriceDataForDateRange(start string, end string, securityToken string) []byte {
+func GetXmlPriceDataForDateRange(start string, end string, securityToken string) []byte {
 	client := &http.Client{}
 	req, err := http.NewRequest(http.MethodGet, "https://transparency.entsoe.eu/api", nil)
 	if err != nil {

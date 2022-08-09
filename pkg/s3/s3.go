@@ -1,4 +1,4 @@
-package main
+package s3
 
 import (
 	"bytes"
@@ -10,7 +10,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 )
 
-func putFileToS3(contents []byte, region string, bucketName string, key string) {
+func PutFileToS3(contents []byte, region string, bucketName string, key string) {
 	cfg, err := config.LoadDefaultConfig(context.TODO(), config.WithClientLogMode(aws.LogDeprecatedUsage))
 	if err != nil {
 		log.Fatalf("Error creating config: %s", err)

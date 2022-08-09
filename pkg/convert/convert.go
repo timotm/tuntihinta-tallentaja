@@ -1,4 +1,4 @@
-package main
+package convert
 
 import (
 	"encoding/xml"
@@ -80,7 +80,7 @@ func parseXMLTime(input string) (time.Time, error) {
 	return t, nil
 }
 
-func parseXml(xmlBytes []byte) ([]DayPrices, error) {
+func ParseXml(xmlBytes []byte) ([]DayPrices, error) {
 	var marketDocument MarketDocument
 	if err := xml.Unmarshal(xmlBytes, &marketDocument); err != nil {
 		return nil, errors.New(fmt.Sprintf("Unable to parse XML: %s", err))

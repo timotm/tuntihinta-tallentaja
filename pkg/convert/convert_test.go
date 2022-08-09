@@ -1,4 +1,4 @@
-package main
+package convert
 
 import (
 	"bytes"
@@ -77,7 +77,7 @@ func TestSuccess(t *testing.T) {
 		</TimeSeries>
 	</Publication_MarketDocument>`
 
-	prices, err := parseXml([]byte(input))
+	prices, err := ParseXml([]byte(input))
 	assert.Nil(t, err)
 
 	pricesJson, _ := json.Marshal(prices)
@@ -138,7 +138,7 @@ func TestNoData(t *testing.T) {
 		</Reason>
 	</Acknowledgement_MarketDocument>`
 
-	_, err := parseXml([]byte(input))
+	_, err := ParseXml([]byte(input))
 	assert.NotNil(t, err)
 	assert.Contains(t, err.Error(), "No matching data found for Data item Day-ahead")
 }
