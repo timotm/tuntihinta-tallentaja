@@ -79,6 +79,6 @@ func main() {
 			log.Fatalf("Unable to marshal JSON: %s", err)
 		}
 		fmt.Printf("Writing %s: %s\n", fileName, contents)
-		s3.PutFileToS3(contents, os.Getenv("AWS_REGION"), os.Getenv("AWS_BUCKET_NAME"), fileName)
+		s3.PutFileToS3(contents, os.Getenv("AWS_REGION"), os.Getenv("AWS_ACCESS_KEY_ID"), os.Getenv("AWS_SECRET_ACCESS_KEY"), os.Getenv("AWS_BUCKET_NAME"), fileName)
 	}
 }
