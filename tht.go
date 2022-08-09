@@ -57,7 +57,7 @@ func main() {
 	}
 
 	if !endTime.isSet() {
-		t := time.Now().AddDate(0, 0, 1)
+		t := time.Now().AddDate(0, 0, 2)
 		endTime = entsoeTime(t)
 	}
 
