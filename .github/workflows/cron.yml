@@ -1,0 +1,14 @@
+name: fetch-prices
+on:
+  schedule:
+    - cron: '0,30 12,13,14,18,19 * * *'
+jobs:
+  cron:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger vercel
+        run: |
+          curl --fail \
+          --request POST \
+          --url 'https://tuntihinta-tallentaja.vercel.app/api/' \
+          --header 'Authorization: Bearer ${{ secrets.TH_REQUEST_TOKEN }}'
