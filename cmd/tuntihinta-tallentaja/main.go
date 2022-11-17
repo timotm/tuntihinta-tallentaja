@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"flag"
 	"fmt"
 	"log"
@@ -9,9 +8,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/timotm/tuntihinta-tallentaja/pkg/convert"
 	"github.com/timotm/tuntihinta-tallentaja/pkg/fetcher"
-	"github.com/timotm/tuntihinta-tallentaja/pkg/s3"
+	"github.com/timotm/tuntihinta-tallentaja/pkg/glue"
 )
 
 var startTime fetcher.EntsoeTime
@@ -47,20 +45,13 @@ func main() {
 	}
 
 	fmt.Printf("Fetching data for %+v to %+v\n", startTime.String(), endTime.String())
-	responseXml := fetcher.GetXmlPriceDataForDateRange(startTime.String(), endTime.String(), os.Getenv("SECURITY_TOKEN"))
+	files := glue.FetchAndUpload(startTime,
+		endTime,
+		os.Getenv("SECURITY_TOKEN"),
+		os.Getenv("AWS_REGION"),
+		os.Getenv("AWS_BUCKET_NAME"),
+		os.Getenv("AWS_ACCESS_KEY_ID"),
+		os.Getenv("AWS_SECRET_ACCESS_KEY"))
 
-	prices, err := convert.ParseXml(responseXml)
-	if err != nil {
-		log.Fatalf("Unable to parse XML: %s", err)
-	}
-
-	for _, dayPrices := range prices {
-		fileName := fmt.Sprintf("%s.json", dayPrices.Date)
-		contents, err := json.Marshal(dayPrices)
-		if err != nil {
-			log.Fatalf("Unable to marshal JSON: %s", err)
-		}
-		fmt.Printf("Writing %s: %s\n", fileName, contents)
-		s3.PutFileToS3(contents, os.Getenv("AWS_REGION"), os.Getenv("AWS_ACCESS_KEY_ID"), os.Getenv("AWS_SECRET_ACCESS_KEY"), os.Getenv("AWS_BUCKET_NAME"), fileName)
-	}
+	fmt.Printf("Uploaded files: %s\n", strings.Join(files, ", "))
 }
