@@ -17,7 +17,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		split := strings.Split(token, " ")
 		if len(split) != 2 ||
 			split[0] != "Bearer" ||
-			split[1] != strings.TrimSpace(os.Getenv("REQUEST_TOKEN")) {
+			split[1] != strings.TrimSpace(os.Getenv("TH_REQUEST_TOKEN")) {
 			http.Error(w, "Unauthorized", http.StatusUnauthorized)
 			return
 		}
@@ -30,11 +30,11 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Fetching data for %+v to %+v\n", startTime.String(), endTime.String())
 		files := glue.FetchAndUpload(startTime,
 			endTime,
-			os.Getenv("SECURITY_TOKEN"),
-			os.Getenv("AWS_REGION"),
-			os.Getenv("AWS_BUCKET_NAME"),
-			os.Getenv("AWS_ACCESS_KEY_ID"),
-			os.Getenv("AWS_SECRET_ACCESS_KEY"))
+			os.Getenv("TH_SECURITY_TOKEN"),
+			os.Getenv("TH_AWS_REGION"),
+			os.Getenv("TH_AWS_BUCKET_NAME"),
+			os.Getenv("TH_AWS_ACCESS_KEY_ID"),
+			os.Getenv("TH_AWS_SECRET_ACCESS_KEY"))
 
 		fmt.Fprintf(w, "Uploaded files: %s\n", strings.Join(files, ", "))
 

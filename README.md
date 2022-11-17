@@ -2,7 +2,7 @@ Fetches Finnish day-ahead electricity prices from [ENTSO-E transparency platform
 
 Build and run:
 ```
-go build && AWS_REGION=eu-north-1 AWS_BUCKET_NAME=buket AWS_ACCESS_KEY_ID=yes AWS_SECRET_ACCESS_KEY=very_secret SECURITY_TOKEN=also_secret ./tuntihinta-tallentaja --start-date 2022-08-01 --end-date 2022-08-07
+go build && TH_AWS_REGION=eu-north-1 TH_AWS_BUCKET_NAME=buket TH_AWS_ACCESS_KEY_ID=yes TH_AWS_SECRET_ACCESS_KEY=very_secret TH_SECURITY_TOKEN=also_secret ./tuntihinta-tallentaja --start-date 2022-08-01 --end-date 2022-08-07
 ```
 
 Sample JSON file:

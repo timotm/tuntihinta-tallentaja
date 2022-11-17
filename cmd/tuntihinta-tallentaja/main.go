@@ -23,7 +23,7 @@ func init() {
 func main() {
 	flag.Parse()
 
-	requiredEnvVariables := []string{"SECURITY_TOKEN", "AWS_REGION", "AWS_BUCKET_NAME", "AWS_ACCESS_KEY_ID", "AWS_SECRET_ACCESS_KEY"}
+	requiredEnvVariables := []string{"TH_SECURITY_TOKEN", "TH_AWS_REGION", "TH_AWS_BUCKET_NAME", "TH_AWS_ACCESS_KEY_ID", "TH_AWS_SECRET_ACCESS_KEY"}
 	var unset []string
 	for _, envVar := range requiredEnvVariables {
 		if os.Getenv(envVar) == "" {
@@ -47,11 +47,11 @@ func main() {
 	fmt.Printf("Fetching data for %+v to %+v\n", startTime.String(), endTime.String())
 	files := glue.FetchAndUpload(startTime,
 		endTime,
-		os.Getenv("SECURITY_TOKEN"),
-		os.Getenv("AWS_REGION"),
-		os.Getenv("AWS_BUCKET_NAME"),
-		os.Getenv("AWS_ACCESS_KEY_ID"),
-		os.Getenv("AWS_SECRET_ACCESS_KEY"))
+		os.Getenv("TH_SECURITY_TOKEN"),
+		os.Getenv("TH_AWS_REGION"),
+		os.Getenv("TH_AWS_BUCKET_NAME"),
+		os.Getenv("TH_AWS_ACCESS_KEY_ID"),
+		os.Getenv("TH_AWS_SECRET_ACCESS_KEY"))
 
 	fmt.Printf("Uploaded files: %s\n", strings.Join(files, ", "))
 }
