@@ -1,7 +1,8 @@
 name: fetch-prices
 on:
   schedule:
-    - cron: '0,30 12,13,14,18,19 * * *'
+    - cron: '3 12,13,14,18,19 * * *'
+    - cron: '34 12,13,14,18,19 * * *'
 jobs:
   cron:
     runs-on: ubuntu-latest
