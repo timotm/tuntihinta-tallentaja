@@ -4,10 +4,11 @@ on:
     - cron: '3 12,13 * * *'
     - cron: '34 14,18 * * *'
 jobs:
-  cron:
+  build:
+    name: Trigger
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger vercel
+      - name: Curl
         run: |
           curl --fail \
           --request POST \
