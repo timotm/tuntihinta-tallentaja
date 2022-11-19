@@ -13,4 +13,4 @@ jobs:
           curl --fail \
           --request POST \
           --url 'https://tuntihinta-tallentaja.vercel.app/api/' \
-          --header 'Authorization: Bearer ${{ secrets.TH_REQUEST_TOKEN }}'
+          --header "Authorization: Bearer ${{ secrets.TH_REQUEST_TOKEN }}"
