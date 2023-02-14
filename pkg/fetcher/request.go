@@ -29,7 +29,7 @@ func (t *EntsoeTime) IsSet() bool {
 
 func GetXmlPriceDataForDateRange(start string, end string, securityToken string) []byte {
 	client := &http.Client{}
-	req, err := http.NewRequest(http.MethodGet, "https://transparency.entsoe.eu/api", nil)
+	req, err := http.NewRequest(http.MethodGet, "https://web-api.tp.entsoe.eu/api", nil)
 	if err != nil {
 		log.Fatal(err)
 	}
