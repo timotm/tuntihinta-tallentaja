@@ -1,8 +1,8 @@
 name: fetch-prices
 on:
   schedule:
-    - cron: '3 12,13 * * *'
-    - cron: '34 14,18 * * *'
+    - cron: '3 12,13,14,15 * * *'
+    - cron: '34 14,15,16,17,18 * * *'
 jobs:
   build:
     name: Trigger
