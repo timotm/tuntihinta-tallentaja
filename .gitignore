@@ -1,3 +1,4 @@
 .vscode/
 tuntihinta-tallentaja
 .vercel
+.env.*local
