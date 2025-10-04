@@ -1,6 +1,6 @@
 module github.com/timotm/tuntihinta-tallentaja
 
-go 1.16
+go 1.25
 
 require (
 	github.com/aws/aws-sdk-go v1.44.71 // indirect
