@@ -102,7 +102,13 @@ func ParseXml(xmlBytes []byte) ([]DayPrices, error) {
 			return nil, err
 		}
 
-		if marketDocument.TimeSeries[i].Period.Resolution != "PT60M" {
+		var minutes int
+
+		if marketDocument.TimeSeries[i].Period.Resolution == "PT60M" {
+			minutes = 60
+		} else if marketDocument.TimeSeries[i].Period.Resolution == "PT15M" {
+			minutes = 15
+		} else {
 			return nil, errors.New(fmt.Sprintf("Unsupported resolution %s", marketDocument.TimeSeries[i].Period.Resolution))
 		}
 
@@ -120,7 +126,7 @@ func ParseXml(xmlBytes []byte) ([]DayPrices, error) {
 					DayPrices{Date: start.Round(24 * time.Hour).Format("2006-01-02"),
 						HourPrices: []HourPrice{}})
 			}
-			currentTime := start.Add(time.Minute * time.Duration(60*j))
+			currentTime := start.Add(time.Minute * time.Duration(minutes*j))
 			dayPrices[len(dayPrices)-1].HourPrices = append(dayPrices[len(dayPrices)-1].HourPrices,
 				HourPrice{StartTime: currentTime,
 					Price: marketDocument.TimeSeries[i].Period.Point[j].Price / 10.0}) // e/MWh -> c/KWh

@@ -2,7 +2,7 @@ package fetcher
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 	"time"
@@ -11,7 +11,7 @@ import (
 type EntsoeTime time.Time
 
 func (t *EntsoeTime) String() string {
-	return time.Time(*t).Format("2006-01-02T00:00Z")
+	return time.Time(*t).Format("200601020000")
 }
 
 func (t *EntsoeTime) Set(value string) error {
@@ -37,11 +37,13 @@ func GetXmlPriceDataForDateRange(start string, end string, securityToken string)
 	q := req.URL.Query()
 	q.Add("securityToken", securityToken)
 	q.Add("documentType", "A44")
-	q.Add("in_domain", "10YFI-1--------U")
-	q.Add("out_domain", "10YFI-1--------U")
-	q.Add("TimeInterval", fmt.Sprintf("%s/%s", start, end))
+	q.Add("in_Domain", "10YFI-1--------U")
+	q.Add("out_Domain", "10YFI-1--------U")
+	q.Add("periodStart", start)
+	q.Add("periodEnd", end)
 	req.URL.RawQuery = q.Encode()
 
+	fmt.Printf("Requesting URL: %s\n", req.URL.String())
 	resp, err := client.Do(req)
 	if err != nil {
 		fmt.Println("Errored when sending request to the server")
@@ -49,7 +51,7 @@ func GetXmlPriceDataForDateRange(start string, end string, securityToken string)
 	}
 
 	defer resp.Body.Close()
-	responseBody, err := ioutil.ReadAll(resp.Body)
+	responseBody, err := io.ReadAll(resp.Body)
 	if err != nil {
 		log.Fatalf("Error reading response body: %s", err)
 	}
